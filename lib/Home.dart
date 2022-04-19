@@ -93,7 +93,8 @@ class MovieDetails extends StatelessWidget {
             children:[
               Text("${movieObject.Title}",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.black),),
               Text("${movieObject.Actors}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),),
-              Text("${movieObject.Plot}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),)
+              Text("${movieObject.Plot}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),),
+              Text("${movieObject.Awards}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),)
 
             ]
         ),
