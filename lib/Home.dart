@@ -85,25 +85,166 @@ class MovieDetails extends StatelessWidget {
 
       ),
       backgroundColor: Colors.green.shade100,
-      body: Container(
+      body:ListView(
+        children: [
+              MovieThumbnail(movieObject: movieObject),
+              MoviePoster(movieObject:movieObject)
 
-        child: Center(
-          child:Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children:[
-              Text("${movieObject.Title}",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.black),),
-              Text("${movieObject.Actors}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),),
-              Text("${movieObject.Plot}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),),
-              Text("${movieObject.Awards}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),)
 
-            ]
+        ],
+
+
+      )
+
+      // body: Container(
+      //
+      //   child: Center(
+      //     child:Column(
+      //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //       children:[
+      //         Text("${movieObject.Title}",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold,color: Colors.black),),
+      //         Text("${movieObject.Actors}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),),
+      //         Text("${movieObject.Plot}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),),
+      //         Text("${movieObject.Awards}",style: TextStyle(fontSize: 15,fontWeight: FontWeight.w200,color: Colors.grey),)
+      //
+      //       ]
+      //   ),
+      //
+      //
+      // ),
+      //
+      // )
+    );
+  }
+}
+
+class MovieThumbnail extends StatelessWidget {
+
+  final dbMovie movieObject;
+
+  const MovieThumbnail({Key? key,required this.movieObject}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 200,
+              decoration: BoxDecoration(
+
+                  image: DecorationImage(
+                      image: NetworkImage(movieObject.Images[1])
+                      ,fit: BoxFit.cover)
+
+              ),
+
+
+            ),
+            Icon(Icons.play_circle_outline,size: 100,color: Colors.white,),
+
+
+
+
+          ],
+
         ),
+        Text(movieObject.Title,style: TextStyle(
+            fontSize: 50,
+            color: Colors.white
+
+        ),),
+        Container(
+          height: 80,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(end:Alignment.bottomCenter,begin: Alignment.topCenter,colors:[
+              Color(0x00000000),Color(0XFFFFFFFF)])
+
+
+          ),
+
+
+        )
+
+
+
+
+
+      ],
+
+
+
+    );
+  }
+}
+
+class MoviePoster extends StatelessWidget {
+  final dbMovie movieObject;
+  const MoviePoster({Key? key,required this.movieObject}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding:const EdgeInsets.all(8.0),
+      child: Row(
+      children: [
+        Card(
+          elevation: 200,
+          child:ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width/4,
+              height: 170,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(movieObject.Images[2]),fit: BoxFit.cover
+                )
+              ),
+
+
+            ),
+
+          )
+
+
+        ),
+        Card(
+            elevation: 200,
+            child:ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: Container(
+                width: MediaQuery.of(context).size.width*0.67,
+                height: 170,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(end:Alignment.bottomCenter,begin: Alignment.topCenter,colors:[
+                    Color(0x00000000),Color(0XFFFFFFFF)]),
+                    // image: DecorationImage(
+                    //     image: NetworkImage(movieObject.Images[3]),fit: BoxFit.cover
+                    // )
+
+                ),
+
+
+              ),
+
+            )
+
+
+        )
+
+      ],
 
 
       ),
 
-      )
+
     );
   }
 }
+
+
 
