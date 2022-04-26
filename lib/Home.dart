@@ -80,15 +80,19 @@ class MovieDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Movie Details"),
-        backgroundColor: Colors.green,
+        title: Text("Movie Details",),
+        backgroundColor: Colors.grey.shade700,
 
       ),
-      backgroundColor: Colors.green.shade100,
+      backgroundColor: Colors.white,
       body:ListView(
         children: [
               MovieThumbnail(movieObject: movieObject),
-              MoviePoster(movieObject:movieObject)
+              MoviePoster(movieObject:movieObject),
+          BRtag(),
+          MovieActorDetails(movieObject: movieObject,),
+          BRtag(),
+          MovieImageSlider(posters: movieObject.Images,)
 
 
         ],
@@ -134,7 +138,7 @@ class MovieThumbnail extends StatelessWidget {
           children: [
             Container(
               width: MediaQuery.of(context).size.width,
-              height: 200,
+              height: 170,
               decoration: BoxDecoration(
 
                   image: DecorationImage(
@@ -198,7 +202,7 @@ class MoviePoster extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.0),
             child: Container(
               width: MediaQuery.of(context).size.width/4,
-              height: 170,
+              height: 150,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: NetworkImage(movieObject.Images[2]),fit: BoxFit.cover
@@ -212,29 +216,12 @@ class MoviePoster extends StatelessWidget {
 
 
         ),
-        Card(
-            elevation: 200,
-            child:ClipRRect(
-              borderRadius: BorderRadius.circular(10.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width*0.67,
-                height: 170,
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(end:Alignment.bottomCenter,begin: Alignment.topCenter,colors:[
-                    Color(0x00000000),Color(0XFFFFFFFF)]),
-                    // image: DecorationImage(
-                    //     image: NetworkImage(movieObject.Images[3]),fit: BoxFit.cover
-                    // )
+        SizedBox(width: 16,),
+        Expanded(
+            child: MovieDetailsHeader(movieObject: movieObject)
 
-                ),
+        ),
 
-
-              ),
-
-            )
-
-
-        )
 
       ],
 
@@ -245,6 +232,183 @@ class MoviePoster extends StatelessWidget {
     );
   }
 }
+
+class MovieDetailsHeader extends StatelessWidget {
+  final dbMovie movieObject;
+
+  const MovieDetailsHeader({Key? key,required this.movieObject}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("${movieObject.Year} . ${movieObject.Genre}".toUpperCase(),
+        style: TextStyle(
+          fontWeight: FontWeight.w400,
+          color: Colors.deepPurple
+
+        ),),
+
+        Text(movieObject.Title,style: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 30
+
+        ),),
+        Text.rich(TextSpan(style: TextStyle(
+          fontSize: 13,
+          fontWeight: FontWeight.w300,
+        ),
+          children: [
+            TextSpan(
+              text: movieObject.Plot
+
+            ),
+            TextSpan(
+                text: "More.....",
+              style: TextStyle(color: Colors.blueAccent)
+            )
+
+
+          ]
+        )
+
+        )
+        
+      ],
+      
+      
+    );
+  }
+}
+
+class MovieActorDetails extends StatelessWidget {
+  final dbMovie movieObject;
+  const MovieActorDetails({Key? key,required this.movieObject}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child:Column(
+        children: [
+          Moviefield(property: "Cast",value:movieObject.Actors),
+          Moviefield(property: "Director",value:movieObject.Director),
+          Moviefield(property: "Awards",value:movieObject.Awards),
+          Moviefield(property: "Imdb Rating",value:movieObject.imdbRating),
+
+        ],
+
+
+
+      )
+
+
+
+    );
+  }
+}
+
+class Moviefield extends StatelessWidget {
+  final String property;
+  final String value;
+  const Moviefield({Key? key,required this.property,required this.value}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("$property : ",style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w300),)
+    ,
+        Text(value,style: TextStyle(color: Colors.black,fontSize: 12,fontWeight: FontWeight.w300),)
+
+      ],
+
+    );
+  }
+}
+
+class BRtag extends StatelessWidget {
+  const BRtag({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 14.0),
+      child: Container(
+        height: 1.0,
+        color: Colors.grey,
+
+      ),
+    );
+  }
+}
+class MovieImageSlider extends StatelessWidget {
+
+  final List<String> posters;
+  const MovieImageSlider({Key? key,required this.posters}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+          child: Text("Movie Posters",style: TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+            color: Colors.black
+
+          ),
+          ),
+        ),
+
+        Container(
+height: 150,
+          padding: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+              itemBuilder: (context,index)=>ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                child: Container(
+                  width: MediaQuery.of(context).size.width/4,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(posters[index]),fit: BoxFit.cover
+
+                    )
+                  ),
+
+
+
+                ),
+
+
+
+              ),
+              separatorBuilder: (context,index)=>SizedBox(width: 8,),
+              itemCount: posters.length),
+
+
+        )
+
+
+      ],
+
+
+
+    );
+  }
+}
+
+
+
+
 
 
 
