@@ -391,7 +391,7 @@ height: 150,
 
 
               ),
-              separatorBuilder: (context,index)=>SizedBox(width: 8,),
+              separatorBuilder: (context,index)=>SizedBox(width: 8.5,),
               itemCount: posters.length),
 
 
